@@ -14,66 +14,79 @@ var argv = require('yargs').argv; // 自定义任务添加编译参数
 var gulpif = require('gulp-if');
 
 var paths = {
-    
+    sass: ['./src/sass/*.scss'],
+    css: ['./css'],
+    scripts: ['./src/js/*.js']
 };
 
+gulp.task('sass', function () {
+    gulp.src(paths.sass)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./css'));
+});
+
 gulp.task('cssmin', function () {
-    gulp.src(paths.cssAll)
+    gulp.src(paths.css)
+    .pipe(concat('cssmin.css'))
     .pipe(minifyCss({
         keepSpecialComments: 0
     }))
-    .pipe(concat('all.min.css'))
-    .pipe(gulp.dest('www/css'))
-    .pipe(livereload());
+    .pipe(gulp.dest('./cssmin'));
 });
 
 gulp.task('uglify', function () {
-    gulp.src(paths.scriptAll)
-    .pipe(concat('all.min.js'))
-    // .pipe(uglify())
-    .pipe(gulp.dest('www'))
-    .pipe(livereload());
+    gulp.src(paths.scripts)
+    .pipe(concat('uglify.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./uglify'));
 });
 
-gulp.task('watch', function () {
-    livereload.listen();
-
-    gulp.watch(paths.cssAll, ['css']);
-    gulp.watch(paths.listen, ['scripts']);
+gulp.task('rename', function () {
+    gulp.src('./uglify/all.min.js')
+    .pipe(rename('rename.js'))
+    .pipe(gulp.dest('./rename'));
 });
+
+
+// gulp.task('watch', function () {
+//     livereload.listen();
+
+//     gulp.watch(paths.cssAll, ['css']);
+//     gulp.watch(paths.listen, ['scripts']);
+// });
 
 gulp.task('iconfont', function () {
-    gulp.src(['./www/svg/*.svg'])
+    gulp.src(['./src/font/svg/*.svg'])
     .pipe(iconfontCss({
         fontName: 'firstPoint',
-        path: './www/css/iconTemplate.css',
-        targetPath: '../css/firstPoint.css',
-        fontPath: '../fonts/'
+        path: './src/font/iconTemplate.css',
+        targetPath: './css/firstPoint.css',
+        fontPath: './fonts/'
     }))
     .pipe(iconfont({
         fontName: 'firstPoint',
-        formats: ['ttf'],
+        formats: ['ttf', 'eot', 'woff'],
         normalize: true
      }))
-    .pipe(gulp.dest('./www/fonts/'));
+    .pipe(gulp.dest('./fonts/'));
 });
 
 gulp.task("sprite", function () {
-    gulp.src("./www/src/css/style.css")
+    gulp.src("./src/sprite/css/style.css")
     .pipe(spriter({
         sprite: "sprite.png",
-        slice: "./www/src/slice",
-        outpath: "./www/src/debug-css/sprite"
+        slice: "./src/sprite/slice",
+        outpath: "./cssSprite/sprite"
     }))
-    .pipe(gulp.dest('./www/src/debug-css'))
+    .pipe(gulp.dest('./cssSprite'))
 });
 
 gulp.task("imagemin", function () {
-    gulp.src("./www/img/*")
+    gulp.src("./src/sprite/slice/*")
     .pipe(imagemin({
         progressive: true,
         svgoPlugins: [{removeViewBox: false}],
         use: [pngquant()]
     }))
-    .pipe(gulp.dest('./www/imagemin'))
+    .pipe(gulp.dest('./imagemin'))
 });

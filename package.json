@@ -13,9 +13,11 @@
   "devDependencies": {
     "gulp-iconfont": "^5.0.1",
     "gulp-iconfont-css": "^2.0.0",
+    "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.4.0",
     "gulp-sass": "^2.1.1",
     "gulp-spriter": "^1.1.5",
-    "imagemin-pngquant": "^4.2.0"
+    "imagemin-pngquant": "^4.2.0",
+    "yargs": "^3.32.0"
   }
 }
