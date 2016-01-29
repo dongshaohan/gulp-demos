@@ -1,6 +1,8 @@
 @font-face {
     font-family: "<%= fontName %>";
-    src:url('<%= fontPath %><%= fontName %>.ttf') format('truetype');
+    src:url('<%= fontPath %><%= fontName %>.ttf') format('truetype'),
+        url('<%= fontPath %><%= fontName %>.woff') format('woff'),
+        url('<%= fontPath %><%= fontName %>.eot') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }

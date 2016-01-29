@@ -1,6 +1,8 @@
 @font-face {
     font-family: "firstPoint";
-    src:url('./fonts/firstPoint.ttf') format('truetype');
+    src:url('../firstPoint.ttf') format('truetype'),
+        url('../firstPoint.woff') format('woff'),
+        url('../firstPoint.eot') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }

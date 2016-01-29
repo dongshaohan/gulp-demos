@@ -47,21 +47,13 @@ gulp.task('rename', function () {
     .pipe(gulp.dest('./rename'));
 });
 
-
-// gulp.task('watch', function () {
-//     livereload.listen();
-
-//     gulp.watch(paths.cssAll, ['css']);
-//     gulp.watch(paths.listen, ['scripts']);
-// });
-
 gulp.task('iconfont', function () {
     gulp.src(['./src/font/svg/*.svg'])
     .pipe(iconfontCss({
         fontName: 'firstPoint',
         path: './src/font/iconTemplate.css',
         targetPath: './css/firstPoint.css',
-        fontPath: './fonts/'
+        fontPath: '../'
     }))
     .pipe(iconfont({
         fontName: 'firstPoint',
@@ -90,3 +82,11 @@ gulp.task("imagemin", function () {
     }))
     .pipe(gulp.dest('./imagemin'))
 });
+
+gulp.task('watch', function () {
+    livereload.listen();
+
+    gulp.watch(paths.cssAll, ['css']);
+    gulp.watch(paths.listen, ['scripts']);
+});
+
