@@ -14,20 +14,21 @@ var argv = require('yargs').argv; // 自定义任务添加编译参数
 var gulpif = require('gulp-if');
 
 var paths = {
-    sass: ['./src/sass/*.scss'],
-    css: ['./css'],
+    sass: ['./src/sass/ionic.scss'],
+    css: ['./css/*.css'],
     scripts: ['./src/js/*.js']
 };
 
 gulp.task('sass', function () {
     gulp.src(paths.sass)
     .pipe(sass().on('error', sass.logError))
+    .pipe(concat('ionic.css'))
     .pipe(gulp.dest('./css'));
 });
 
 gulp.task('cssmin', function () {
     gulp.src(paths.css)
-    .pipe(concat('cssmin.css'))
+    .pipe(concat('ionic.min.css'))
     .pipe(minifyCss({
         keepSpecialComments: 0
     }))
