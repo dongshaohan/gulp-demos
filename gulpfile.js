@@ -1,3 +1,8 @@
+/*
+ * gulp demo of project
+ * @author dongsh
+ * @time 2016-01-30
+ */
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
@@ -11,14 +16,16 @@ var spriter = require("gulp-spriter");
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var argv = require('yargs').argv; // 自定义任务添加编译参数
-var gulpif = require('gulp-if');
+var gulpif = require('gulp-if'); // 条件判断
 
+// 源文件路径
 var paths = {
     sass: ['./src/sass/ionic.scss'],
     css: ['./css/*.css'],
     scripts: ['./src/js/*.js']
 };
 
+// sass预编译任务
 gulp.task('sass', function () {
     gulp.src(paths.sass)
     .pipe(sass().on('error', sass.logError))
@@ -26,6 +33,7 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./css'));
 });
 
+// css文件压缩任务
 gulp.task('cssmin', function () {
     gulp.src(paths.css)
     .pipe(concat('ionic.min.css'))
@@ -35,6 +43,7 @@ gulp.task('cssmin', function () {
     .pipe(gulp.dest('./cssmin'));
 });
 
+// js文件压缩任务
 gulp.task('uglify', function () {
     gulp.src(paths.scripts)
     .pipe(concat('uglify.js'))
@@ -42,12 +51,14 @@ gulp.task('uglify', function () {
     .pipe(gulp.dest('./uglify'));
 });
 
+// 文件名重命名任务
 gulp.task('rename', function () {
     gulp.src('./uglify/all.min.js')
     .pipe(rename('rename.js'))
     .pipe(gulp.dest('./rename'));
 });
 
+// iconfont生成任务
 gulp.task('iconfont', function () {
     gulp.src(['./src/font/svg/*.svg'])
     .pipe(iconfontCss({
@@ -64,6 +75,7 @@ gulp.task('iconfont', function () {
     .pipe(gulp.dest('./fonts/'));
 });
 
+// css sprite任务
 gulp.task("sprite", function () {
     gulp.src("./src/sprite/css/style.css")
     .pipe(spriter({
@@ -74,6 +86,7 @@ gulp.task("sprite", function () {
     .pipe(gulp.dest('./cssSprite'))
 });
 
+// 图片压缩任务
 gulp.task("imagemin", function () {
     gulp.src("./src/sprite/slice/*")
     .pipe(imagemin({
@@ -82,12 +95,5 @@ gulp.task("imagemin", function () {
         use: [pngquant()]
     }))
     .pipe(gulp.dest('./imagemin'))
-});
-
-gulp.task('watch', function () {
-    livereload.listen();
-
-    gulp.watch(paths.cssAll, ['css']);
-    gulp.watch(paths.listen, ['scripts']);
 });
 
